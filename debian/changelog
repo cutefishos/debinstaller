@@ -1,5 +1,11 @@
-cutefish-debinstaller (0.1) UNRELEASED; urgency=low
+cutefish-debinstaller (0.5-3) unstable; urgency=medium
+
+  * Fix some issues
+
+ -- CutefishOS Packaging Team <support@cutefishos.com>  Tue, 05 Oct 2021 20:16:32 +0800
+
+cutefish-debinstaller (0.5-2) UNRELEASED; urgency=low
 
   * Initial release (CutefishOS)  <support@cutefishos.com>
 
- -- CutefishOS <cutefishos@foxmail.com>  Thu, 16 Oct 2014 17:22:15 +0200
+ -- CutefishOS Packaging Team <support@cutefishos.com>  Thu, 16 Sep 2021 02:31:42 +0800

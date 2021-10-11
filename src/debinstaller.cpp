@@ -73,6 +73,7 @@ DebInstaller::DebInstaller(QObject *parent)
     , m_backend(new QApt::Backend(this))
     , m_debFile(nullptr)
     , m_transaction(nullptr)
+    , m_isInstalled(false)
     , m_status(DebInstaller::Begin)
 {
 
@@ -103,6 +104,13 @@ void DebInstaller::setFileName(const QString &fileName)
     QApt::FrontendCaps caps = (QApt::FrontendCaps)(QApt::DebconfCap);
     m_backend->setFrontendCaps(caps);
     m_debFile = new QApt::DebFile(m_fileName);
+
+    QApt::Package *package = m_backend->package(m_debFile->packageName());
+
+    if (package) {
+        m_isInstalled = package->isInstalled();
+        emit isInstalledChanged();
+    }
 
     m_isValid = m_debFile->isValid();
     emit isValidChanged();
@@ -168,6 +176,11 @@ QString DebInstaller::homePage() const
 QString DebInstaller::installedSize() const
 {
     return m_installedSize;
+}
+
+bool DebInstaller::isInstalled() const
+{
+    return m_isInstalled;
 }
 
 void DebInstaller::install()

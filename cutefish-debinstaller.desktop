@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Package Installer
 Name[zh_CN]=软件包安装
-Exec=cutefish-debinstaller %F
+Exec=/usr/bin/cutefish-debinstaller %F
 Icon=cutefish-debinstaller
 Terminal=false
 Type=Application

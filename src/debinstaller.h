@@ -41,6 +41,7 @@ class DebInstaller : public QObject
     Q_PROPERTY(QString statusMessage READ statusMessage NOTIFY statusMessageChanged)
     Q_PROPERTY(QString statusDetails READ statusDetails NOTIFY statusDetailsTextChanged)
     Q_PROPERTY(Status status READ status NOTIFY statusChanged)
+    Q_PROPERTY(bool isInstalled READ isInstalled NOTIFY isInstalledChanged)
 
     Q_PROPERTY(bool valid READ isValid NOTIFY isValidChanged)
 
@@ -68,6 +69,8 @@ public:
     QString homePage() const;
     QString installedSize() const;
 
+    bool isInstalled() const;
+
     Q_INVOKABLE void install();
 
     QString statusMessage() const;
@@ -87,6 +90,7 @@ signals:
     void statusMessageChanged();
     void statusDetailsTextChanged();
     void statusChanged();
+    void isInstalledChanged();
 
     void requestSwitchToInstallPage();
 
@@ -113,6 +117,7 @@ private:
     QString m_description;
     QString m_homePage;
     QString m_installedSize;
+    bool m_isInstalled;
 
     QString m_statusMessage;
     QString m_statusDetails;

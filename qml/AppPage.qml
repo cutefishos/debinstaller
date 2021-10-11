@@ -46,6 +46,8 @@ Item {
                     Label {
                         text: Installer.maintainer
                         visible: text !== ""
+                        Layout.fillWidth: true
+                        elide: Qt.ElideRight
                     }
 
                     Label {
@@ -58,6 +60,8 @@ Item {
                         text: "<a href=\"%1\">%1</a>".arg(Installer.homePage)
                         linkColor: FishUI.Theme.highlightColor
                         visible: Installer.homePage
+                        Layout.fillWidth: true
+                        elide: Qt.ElideRight
 
                         MouseArea {
                             anchors.fill: parent
@@ -83,7 +87,10 @@ Item {
 
                     Label {
                         text: Installer.description
+                        Layout.fillWidth: true
+                        elide: Qt.ElideRight
                         visible: text
+                        maximumLineCount: 3
                     }
                 }
 
@@ -118,6 +125,8 @@ Item {
         Label {
             id: version
             text: qsTr("Version: ") + Installer.version
+                  + (Installer.isInstalled ? " (%1) ".arg(qsTr("Installed"))
+                                           : "")
             color: FishUI.Theme.disabledTextColor
             Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
         }
@@ -126,16 +135,16 @@ Item {
             height: FishUI.Units.smallSpacing
         }
 
-        TabBar {
-            Layout.fillWidth: true
+//        TabBar {
+//            Layout.fillWidth: true
 
-            TabButton {
-                text: qsTr("Information")
-            }
-            TabButton {
-                text: qsTr("Included Files")
-            }
-        }
+//            TabButton {
+//                text: qsTr("Information")
+//            }
+//            TabButton {
+//                text: qsTr("Included Files")
+//            }
+//        }
 
         StackView {
             Layout.fillHeight: true
@@ -153,7 +162,7 @@ Item {
             }
             Button {
                 Layout.fillWidth: true
-                text: qsTr("Install")
+                text: Installer.isInstalled ? qsTr("Reinstall") : qsTr("Install")
                 flat: true
                 onClicked: Installer.install()
             }

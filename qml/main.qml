@@ -27,11 +27,11 @@ import Cutefish.DebInstaller 1.0
 FishUI.Window {
     id: control
     width: 480
-    height: 450
+    height: 400
     minimumWidth: 480
-    minimumHeight: 450
+    minimumHeight: 400
     maximumWidth: 480
-    maximumHeight: 450
+    maximumHeight: 400
     title: qsTr("Package Installer")
     visible: true
 
@@ -40,6 +40,13 @@ FishUI.Window {
     headerItem: Label {
         text: control.title
         leftPadding: FishUI.Units.largeSpacing
+    }
+
+    DragHandler {
+        target: null
+        acceptedDevices: PointerDevice.GenericPointer
+        grabPermissions: TapHandler.CanTakeOverFromAnything
+        onActiveChanged: if (active) { control.helper.startSystemMove(control) }
     }
 
     DropArea {
