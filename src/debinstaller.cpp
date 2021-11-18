@@ -117,6 +117,8 @@ void DebInstaller::setFileName(const QString &fileName)
     if (package) {
         m_isInstalled = package->isInstalled();
         emit isInstalledChanged();
+    } else {
+        m_isInstalled = false;
     }
 
     m_isValid = m_debFile->isValid();
@@ -289,7 +291,7 @@ bool DebInstaller::checkDeb()
     if (toInstall) {
         m_preInstallMessage = tr("Requires the installation of %1 additional package.").arg(toInstall);
     } else {
-        m_preInstallMessage = tr("All dependencies are satisfied.");
+        m_preInstallMessage = "";
     }
 
     emit preInstallMessageChanged();

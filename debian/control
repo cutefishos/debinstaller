@@ -10,7 +10,8 @@ Build-Depends: cmake,
                qtquickcontrols2-5-dev,
                qttools5-dev,
                qttools5-dev-tools,
-               libqapt-dev
+               libqapt-dev,
+               libapt-pkg-dev
 Standards-Version: 4.5.0
 Homepage: https://cutefishos.com/
 
