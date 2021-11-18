@@ -10,9 +10,16 @@ set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_MODULE_PATH
+    ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 find_package(Qt5 COMPONENTS Core Widgets Quick LinguistTools REQUIRED)
 find_package(QApt REQUIRED)
+find_package(AptPkg REQUIRED)
+
+# Find the required Libaries
+include_directories(
+    ${APTPKG_INCLUDE_DIR})
 
 set(PROJECT_SOURCES
         src/main.cpp
@@ -29,7 +36,8 @@ target_link_libraries(cutefish-debinstaller
   Qt5::Core
   Qt5::Widgets
   Qt5::Quick
-  QApt::Main
+  QApt
+  ${APTPKG_LIBRARIES}
 )
 
 file(GLOB TS_FILES translations/*.ts)
