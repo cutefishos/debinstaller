@@ -29,7 +29,7 @@ target_link_libraries(cutefish-debinstaller
   Qt5::Core
   Qt5::Widgets
   Qt5::Quick
-  QApt
+  QApt::Main
 )
 
 file(GLOB TS_FILES translations/*.ts)

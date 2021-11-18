@@ -34,17 +34,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AppPage.qml" line="165"/>
+        <location filename="../qml/AppPage.qml" line="129"/>
+        <source> (Installed Version: %1) </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/AppPage.qml" line="173"/>
         <source>Reinstall</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AppPage.qml" line="160"/>
+        <location filename="../qml/AppPage.qml" line="168"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/AppPage.qml" line="165"/>
+        <location filename="../qml/AppPage.qml" line="173"/>
         <source>Install</source>
         <translation type="unfinished"></translation>
     </message>
@@ -52,37 +57,62 @@
 <context>
     <name>DebInstaller</name>
     <message>
-        <location filename="../src/debinstaller.cpp" line="225"/>
+        <location filename="../src/debinstaller.cpp" line="257"/>
+        <source>Error: Wrong architecture %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/debinstaller.cpp" line="274"/>
+        <source>Error: Breaks the existing package %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/debinstaller.cpp" line="282"/>
+        <source>Error: Cannot satisfy dependencies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/debinstaller.cpp" line="290"/>
+        <source>Requires the installation of %1 additional package.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/debinstaller.cpp" line="292"/>
+        <source>All dependencies are satisfied.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/debinstaller.cpp" line="480"/>
         <source>Starting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/debinstaller.cpp" line="231"/>
+        <location filename="../src/debinstaller.cpp" line="486"/>
         <source>Waiting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/debinstaller.cpp" line="237"/>
+        <location filename="../src/debinstaller.cpp" line="492"/>
         <source>Installing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/debinstaller.cpp" line="243"/>
+        <location filename="../src/debinstaller.cpp" line="498"/>
         <source>Loading Cache</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/debinstaller.cpp" line="248"/>
+        <location filename="../src/debinstaller.cpp" line="503"/>
         <source>Downloading Packages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/debinstaller.cpp" line="261"/>
+        <location filename="../src/debinstaller.cpp" line="516"/>
         <source>Installation successful</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/debinstaller.cpp" line="276"/>
+        <location filename="../src/debinstaller.cpp" line="531"/>
         <source>Installation failed</source>
         <translation type="unfinished"></translation>
     </message>

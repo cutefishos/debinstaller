@@ -38,12 +38,17 @@ class DebInstaller : public QObject
     Q_PROPERTY(QString description READ description NOTIFY descriptionChanged)
     Q_PROPERTY(QString homePage READ homePage NOTIFY homePageChanged)
     Q_PROPERTY(QString installedSize READ installedSize NOTIFY installedSizeChanged)
+    Q_PROPERTY(QString installedVersion READ installedVersion NOTIFY installedVersionChanged)
+
     Q_PROPERTY(QString statusMessage READ statusMessage NOTIFY statusMessageChanged)
     Q_PROPERTY(QString statusDetails READ statusDetails NOTIFY statusDetailsTextChanged)
+    Q_PROPERTY(QString preInstallMessage READ preInstallMessage NOTIFY preInstallMessageChanged)
+
     Q_PROPERTY(Status status READ status NOTIFY statusChanged)
     Q_PROPERTY(bool isInstalled READ isInstalled NOTIFY isInstalledChanged)
 
     Q_PROPERTY(bool valid READ isValid NOTIFY isValidChanged)
+    Q_PROPERTY(bool canInstall READ canInstall NOTIFY canInstallChanged)
 
 public:
     enum Status {
@@ -65,9 +70,11 @@ public:
     QString description() const;
 
     bool isValid() const;
+    bool canInstall() const;
 
     QString homePage() const;
     QString installedSize() const;
+    QString installedVersion() const;
 
     bool isInstalled() const;
 
@@ -75,6 +82,7 @@ public:
 
     QString statusMessage() const;
     QString statusDetails() const;
+    QString preInstallMessage() const;
 
     Status status() const;
 
@@ -85,8 +93,10 @@ signals:
     void maintainerChanged();
     void descriptionChanged();
     void isValidChanged();
+    void canInstallChanged();
     void homePageChanged();
     void installedSizeChanged();
+    void installedVersionChanged();
     void statusMessageChanged();
     void statusDetailsTextChanged();
     void statusChanged();
@@ -94,9 +104,17 @@ signals:
 
     void requestSwitchToInstallPage();
 
+    void preInstallMessageChanged();
+
 private:
     void setupTransaction();
     void setStatus(Status status);
+
+    bool checkDeb();
+    QString maybeAppendArchSuffix(const QString& pkgName, bool checkingConflicts = false);
+    QApt::PackageList checkConflicts();
+    QApt::Package *checkBreaksSystem();
+    bool satisfyDepends();
 
 private slots:
     void transactionStatusChanged(QApt::TransactionStatus status);
@@ -109,6 +127,7 @@ private:
     QApt::Transaction *m_transaction;
 
     bool m_isValid;
+    bool m_canInstall;
 
     QString m_fileName;
     QString m_packageName;
@@ -117,12 +136,16 @@ private:
     QString m_description;
     QString m_homePage;
     QString m_installedSize;
+    QString m_installedVersion;
     bool m_isInstalled;
 
     QString m_statusMessage;
     QString m_statusDetails;
+    QString m_preInstallMessage;
 
     Status m_status;
+
+    QString m_foreignArch;
 };
 
 #endif // DEBINSTALLER_H

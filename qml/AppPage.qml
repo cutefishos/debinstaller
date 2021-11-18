@@ -125,10 +125,18 @@ Item {
         Label {
             id: version
             text: qsTr("Version: ") + Installer.version
-                  + (Installer.isInstalled ? " (%1) ".arg(qsTr("Installed"))
-                                           : "")
+                  + (Installer.isInstalled && Installer.version === Installer.installedVersion ? " (%1) ".arg(qsTr("Installed")) : "")
+                  + (Installer.installedVersion && Installer.version !== Installer.installedVersion ? qsTr(" (Installed Version: %1) ").arg(Installer.installedVersion) : "")
             color: FishUI.Theme.disabledTextColor
             Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
+        }
+
+        Label {
+            id: status
+            text: Installer.preInstallMessage
+            color: FishUI.Theme.disabledTextColor
+            Layout.alignment: Qt.AlignTop | Qt.AlignHCenter
+            visible: text
         }
 
         Item {
@@ -164,6 +172,7 @@ Item {
                 Layout.fillWidth: true
                 text: Installer.isInstalled ? qsTr("Reinstall") : qsTr("Install")
                 flat: true
+                enabled: Installer.canInstall
                 onClicked: Installer.install()
             }
         }
