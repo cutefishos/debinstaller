@@ -256,6 +256,7 @@ bool DebInstaller::checkDeb()
     if (debArch != m_backend->nativeArchitecture()) {
         if (!arches.contains(debArch)) {
             // Wrong arch
+            qDebug() << "wrong arch";
             m_preInstallMessage = tr("Error: Wrong architecture %1").arg(debArch);
             m_preInstallMessage.prepend(QLatin1String("<font color=\"#ff0000\">"));
             m_preInstallMessage.append(QLatin1String("</font>"));
@@ -276,16 +277,20 @@ bool DebInstaller::checkDeb()
         m_preInstallMessage = tr("Error: Breaks the existing package %1").arg(willBreak->name());
         m_preInstallMessage.prepend(QLatin1String("<font color=\"#ff0000\">"));
         m_preInstallMessage.append(QLatin1String("</font>"));
+        emit preInstallMessageChanged();
         return false;
     }
 
-    if (!satisfyDepends()) {
-        // create status message
-        m_preInstallMessage = tr("Error: Cannot satisfy dependencies");
-        m_preInstallMessage.prepend(QLatin1String("<font color=\"#ff0000\">"));
-        m_preInstallMessage.append(QLatin1String("</font>"));
-        return false;
-    }
+    satisfyDepends();
+
+//    if (!satisfyDepends()) {
+//        // create status message
+//        m_preInstallMessage = tr("Error: Cannot satisfy dependencies");
+//        m_preInstallMessage.prepend(QLatin1String("<font color=\"#ff0000\">"));
+//        m_preInstallMessage.append(QLatin1String("</font>"));
+//        emit preInstallMessageChanged();
+//        return false;
+//    }
 
     int toInstall = m_backend->markedPackages().size();
     if (toInstall) {
@@ -421,56 +426,74 @@ QApt::Package *DebInstaller::checkBreaksSystem()
 
 bool DebInstaller::satisfyDepends()
 {
-    QApt::Package *pkg = 0;
-    QString packageName;
-
     foreach(const QApt::DependencyItem &item, m_debFile->depends()) {
-        bool oneSatisfied = false;
         foreach (const QApt::DependencyInfo &dep, item) {
-            packageName = maybeAppendArchSuffix(dep.packageName());
-            pkg = m_backend->package(packageName);
-            if (!pkg) {
-                // FIXME: virtual package handling
+            const QString &packageName = maybeAppendArchSuffix(dep.packageName());
+            QApt::Package *pkg = m_backend->package(packageName);
+
+            if (!pkg)
                 continue;
-            }
 
-            std::string debVersion = dep.packageVersion().toStdString();
-
-            // If we're installed, see if we already satisfy the dependency
-            if (pkg->isInstalled()) {
-                std::string pkgVersion = pkg->installedVersion().toStdString();
-
-                if (_system->VS->CheckDep(pkgVersion.c_str(),
-                                          dep.relationType(),
-                                          debVersion.c_str())) {
-                    oneSatisfied = true;
-                    break;
-                }
-            }
-
-            // else check if cand ver will satisfy, then mark
-            std::string candVersion = pkg->availableVersion().toStdString();
-
-            if (!_system->VS->CheckDep(candVersion.c_str(),
-                                       dep.relationType(),
-                                       debVersion.c_str())) {
+            if (pkg->isInstalled())
                 continue;
-            }
 
-            pkg->setInstall();
-
-            if (!pkg->wouldBreak()) {
-                oneSatisfied = true;
-                break;
-            }
-        }
-
-        if (!oneSatisfied) {
-            return false;
+            m_backend->markPackageForInstall(packageName);
         }
     }
 
     return true;
+
+//    QApt::Package *pkg = 0;
+//    QString packageName;
+
+//    foreach(const QApt::DependencyItem &item, m_debFile->depends()) {
+//        bool oneSatisfied = false;
+//        foreach (const QApt::DependencyInfo &dep, item) {
+//            packageName = maybeAppendArchSuffix(dep.packageName());
+//            pkg = m_backend->package(packageName);
+
+//            if (!pkg) {
+//                // FIXME: virtual package handling
+//                continue;
+//            }
+
+//            std::string debVersion = dep.packageVersion().toStdString();
+
+//            // If we're installed, see if we already satisfy the dependency
+//            if (pkg->isInstalled()) {
+//                std::string pkgVersion = pkg->installedVersion().toStdString();
+
+//                if (_system->VS->CheckDep(pkgVersion.c_str(),
+//                                          dep.relationType(),
+//                                          debVersion.c_str())) {
+//                    oneSatisfied = true;
+//                    break;
+//                }
+//            }
+
+//            // else check if cand ver will satisfy, then mark
+//            std::string candVersion = pkg->availableVersion().toStdString();
+
+//            if (!_system->VS->CheckDep(candVersion.c_str(),
+//                                       dep.relationType(),
+//                                       debVersion.c_str())) {
+//                continue;
+//            }
+
+//            pkg->setInstall();
+
+//            if (!pkg->wouldBreak()) {
+//                oneSatisfied = true;
+//                break;
+//            }
+//        }
+
+//        if (!oneSatisfied) {
+//            return false;
+//        }
+//    }
+
+//    return true;
 }
 
 void DebInstaller::transactionStatusChanged(QApt::TransactionStatus status)
