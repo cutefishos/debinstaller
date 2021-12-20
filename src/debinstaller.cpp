@@ -566,6 +566,10 @@ void DebInstaller::errorOccurred(QApt::ErrorCode error)
 void DebInstaller::statusDetailsChanged(const QString &message)
 {
     m_statusDetails = m_statusDetails + message;
+
+    if (message.endsWith('\n'))
+        m_statusDetails.append('\n');
+
     emit statusDetailsTextChanged();
 }
 
