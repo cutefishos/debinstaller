@@ -68,11 +68,20 @@ Item {
             height: FishUI.Units.largeSpacing
         }
 
-        TextArea {
+        ScrollView {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            text: Installer.statusDetails
-            enabled: false
+
+            TextArea {
+                id: _textArea
+                text: Installer.statusDetails
+                enabled: false
+
+                // Auto scroll to bottom.
+                onTextChanged: {
+                    _textArea.cursorPosition = _textArea.text.length - 1
+                }
+            }
         }
 
         Button {
